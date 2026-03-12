@@ -1,151 +1,38 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TERMINAL | LEVEL 01</title>
+    <title>CORE_SYSTEM_ACCESS</title>
     <style>
-        body {
-            background-color: #000;
-            color: #00ff41;
-            font-family: 'Courier New', Courier, monospace;
-            margin: 0;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-
-        /* Efek Background Matrix */
-        canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
-
-        .container {
-            position: relative;
-            z-index: 2;
-            background: rgba(0, 0, 0, 0.85);
-            border: 2px solid #00ff41;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 0 20px #00ff41;
-            width: 90%;
-            max-width: 400px;
-        }
-
-        .screen {
-            width: 100%;
-            height: 150px;
-            background: #050505;
-            border: 1px solid #004400;
-            margin: 20px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        /* Pesan Rahasia */
-        .secret {
-            color: #010801; /* Nyaris hitam pekat */
-            font-size: 14px;
-            user-select: none;
-            transition: 0.1s;
-        }
-
-        /* Nyala saat ditekan lama (HP) atau klik tahan */
-        .screen:active .secret {
-            color: #00ff41;
-            text-shadow: 0 0 10px #00ff41;
-            font-size: 18px;
-        }
-
-        input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            border-bottom: 2px solid #004400;
-            color: #00ff41;
-            padding: 10px;
-            text-align: center;
-            font-size: 1.1rem;
-            outline: none;
-            margin-bottom: 20px;
-        }
-
-        button {
-            width: 100%;
-            background: #00ff41;
-            color: #000;
-            border: none;
-            padding: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            letter-spacing: 2px;
-        }
-
-        button:hover { background: #fff; }
+        body { background: #000; color: #0f0; font-family: 'Courier New', monospace; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; overflow: hidden; }
+        .terminal { border: 1px solid #0f0; padding: 40px; background: rgba(0,20,0,0.9); box-shadow: 0 0 30px #0f0; text-align: center; max-width: 400px; width: 90%; position: relative; z-index: 10; }
+        .glitch { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 5px; margin-bottom: 20px; animation: flicker 3s infinite; }
+        .input-area { margin-top: 30px; }
+        input { background: transparent; border: none; border-bottom: 2px solid #0f0; color: #0f0; padding: 10px; width: 100%; outline: none; text-align: center; font-family: inherit; font-size: 1.2rem; }
+        button { background: #0f0; color: #000; border: none; padding: 15px 30px; margin-top: 25px; cursor: pointer; font-weight: bold; width: 100%; letter-spacing: 2px; }
+        button:hover { background: #fff; box-shadow: 0 0 20px #fff; }
+        #log { font-size: 0.7rem; margin-top: 20px; color: #004400; }
+        @keyframes flicker { 0% {opacity:1} 50% {opacity:0.8} 100% {opacity:1} }
     </style>
 </head>
 <body>
 
-    <canvas id="matrix"></canvas>
-
-    <div class="container">
-        <h2 style="letter-spacing: 5px;">LEVEL_01</h2>
-        <p style="font-size: 0.8rem; color: #008800;">TEMUKAN PROTOKOL TERSEMBUNYI</p>
-
-        <div class="screen">
-            <div class="secret">
-                STATUS: ENCRYPTED<br>
-                CORE_VAL: 100293<br><br>
-                KUNCI_AKSES:<br>
-                <strong>MERDEKA_2026</strong>
-            </div>
+    <div class="terminal">
+        <div class="glitch">ENCRYPTED_LEVEL_01</div>
+        <p style="font-size: 0.8rem;">RECOVER THE PROTOCOL KEY FROM SOURCE</p>
+        
+        <div class="input-area">
+            <input type="text" id="_0x4fe2" placeholder="ENTER ACCESS KEY..." autocomplete="off">
+            <button onclick="_0x2b31()">AUTHORIZE ACCESS</button>
         </div>
-
-        <input type="text" id="flag" placeholder="MASUKKAN KUNCI..." autocomplete="off">
-        <button onclick="cek()">OTORISASI</button>
+        
+        <div id="log">> SYSTEM_IDLE...</div>
     </div>
 
     <script>
-        // Efek Matrix Rain
-        const canvas = document.getElementById('matrix');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        const letters = "01010101ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
-        const drops = Array(Math.floor(columns)).fill(1);
-
-        function draw() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#00ff41';
-            ctx.font = fontSize + 'px monospace';
-            for (let i = 0; i < drops.length; i++) {
-                const text = letters.charAt(Math.floor(Math.random() * letters.length));
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
-            }
-        }
-        setInterval(draw, 33);
-
-        // Logika Cek Jawaban
-        function cek() {
-            const val = document.getElementById('flag').value;
-            if (val === "MERDEKA_2026") {
-                alert("AKSES DITERIMA! Sistem Terbuka.");
-            } else {
-                alert("KUNCI SALAH!");
-            }
-        }
+        const _0x1a2b=["\x52\x45\x44\x45\x45\x4D\x5F\x43\x4F\x44\x45\x5F\x32\x30\x32\x36","\x6C\x6F\x67","\x76\x61\x6C\x75\x65","\x5F\x30\x78\x34\x66\x65\x32","\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64","\x41\x43\x43\x45\x53\x53\x5F\x47\x52\x41\x4E\x54\x45\x44","\x41\x43\x43\x45\x53\x53\x5F\x44\x45\x4E\x49\x45\x44\x5F\x49\x4E\x56\x41\x4C\x49\x44\x5F\x4B\x45\x59","\x69\x6E\x6E\x65\x72\x54\x65\x78\x74","\x73\x74\x79\x6C\x65","\x63\x6F\x6C\x6F\x72"];function _0x2b31(){var _0x5c3x=document[_0x1a2b[4]](_0x1a2b[3])[_0x1a2b[2]];var _0x12d3=document[_0x1a2b[4]](_0x1a2b[1]);if(_0x5c3x===_0x1a2b[0]){alert(_0x1a2b[5]);_0x12d3[_0x1a2b[7]]=_0x1a2b[5];_0x12d3[_0x1a2b[8]][_0x1a2b[9]]=_0x1a2b[0]}else{alert(_0x1a2b[6]);_0x12d3[_0x1a2b[7]]=_0x1a2b[6];_0x12d3[_0x1a2b[8]][_0x1a2b[9]]="\x72\x65\x64"}}
+        /* Hint for you: The hidden key is REDEEM_CODE_2026 */
     </script>
 </body>
 </html>
