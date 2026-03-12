@@ -1,188 +1,151 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TERMINAL | Steganos Challenge</title>
+    <title>TERMINAL | LEVEL 01</title>
     <style>
-        :root {
-            --neon-green: #00ff41;
-            --dark-bg: #0a0a0a;
-            --shadow-glow: 0 0 15px rgba(0, 255, 65, 0.4);
-        }
-
         body {
-            background-color: var(--dark-bg);
-            color: var(--neon-green);
-            font-family: 'Share Tech Mono', monospace;
+            background-color: #000;
+            color: #00ff41;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            overflow: hidden;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
-            margin: 0;
-            text-shadow: var(--shadow-glow);
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
+        /* Efek Background Matrix */
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
         }
 
-        .header h1 {
-            font-size: 2.5rem;
-            margin: 0;
-            letter-spacing: 10px;
-            animation: flicker 2s infinite;
-        }
-
-        .header p {
-            color: #555;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-        }
-
-        /* The Puzzle Container */
-        .viewport {
+        .container {
             position: relative;
-            width: 320px;
-            height: 320px;
-            border: 1px solid var(--neon-green);
-            box-shadow: var(--shadow-glow);
-            overflow: hidden;
-            background: #111;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.85);
+            border: 2px solid #00ff41;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 0 20px #00ff41;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .screen {
+            width: 100%;
+            height: 150px;
+            background: #050505;
+            border: 1px solid #004400;
+            margin: 20px 0;
             display: flex;
             align-items: center;
             justify-content: center;
+            cursor: pointer;
         }
 
-        .noise-bg {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: url('https://media.giphy.com/media/oEI9uWUicGLeE/giphy.gif') center/cover;
-            opacity: 0.15;
-            filter: grayscale(1) contrast(1.5);
-            pointer-events: none;
-        }
-
-        /* Hidden Cipher Text */
-        .cipher-layer {
-            z-index: 10;
-            font-size: 12px;
-            color: #111; /* Hidden by blending with background */
+        /* Pesan Rahasia */
+        .secret {
+            color: #010801; /* Nyaris hitam pekat */
+            font-size: 14px;
             user-select: none;
-            transition: 0.2s;
-            text-align: center;
-            padding: 20px;
+            transition: 0.1s;
         }
 
-        /* Visual Hint: Changes color on hold */
-        .viewport:active .cipher-layer {
-            color: var(--neon-green);
-            text-shadow: 0 0 10px var(--neon-green);
-        }
-
-        /* Input Area */
-        .input-section {
-            margin-top: 40px;
-            width: 320px;
+        /* Nyala saat ditekan lama (HP) atau klik tahan */
+        .screen:active .secret {
+            color: #00ff41;
+            text-shadow: 0 0 10px #00ff41;
+            font-size: 18px;
         }
 
         input {
             width: 100%;
             background: transparent;
             border: none;
-            border-bottom: 2px solid #333;
-            color: var(--neon-green);
-            padding: 10px 0;
-            font-family: inherit;
-            font-size: 1.1rem;
+            border-bottom: 2px solid #004400;
+            color: #00ff41;
+            padding: 10px;
             text-align: center;
+            font-size: 1.1rem;
             outline: none;
-            transition: 0.3s;
-        }
-
-        input:focus {
-            border-bottom-color: var(--neon-green);
+            margin-bottom: 20px;
         }
 
         button {
-            margin-top: 20px;
             width: 100%;
-            background: var(--neon-green);
-            color: black;
+            background: #00ff41;
+            color: #000;
             border: none;
             padding: 12px;
             font-weight: bold;
-            font-family: inherit;
             cursor: pointer;
-            text-transform: uppercase;
             letter-spacing: 2px;
-            transition: 0.3s;
         }
 
-        button:hover {
-            background: white;
-            box-shadow: 0 0 20px white;
-        }
-
-        #status {
-            margin-top: 15px;
-            font-size: 0.8rem;
-            height: 20px;
-        }
-
-        @keyframes flicker {
-            0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; }
-            20%, 24%, 55% { opacity: 0.3; }
-        }
+        button:hover { background: #fff; }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div class="header">
-        <h1>LEVEL_01</h1>
-        <p>RECOVER THE HIDDEN PROTOCOL</p>
-    </div>
+    <canvas id="matrix"></canvas>
 
-    <div class="viewport">
-        <div class="noise-bg"></div>
-        <div class="cipher-layer">
-            ANALYZING DATA... <br>
-            BIT_STREAM_CORRUPTED <br><br>
-            KEY_FOUND: <br>
-            <strong>CYBER{N3XU5_CR4CK_2026}</strong>
+    <div class="container">
+        <h2 style="letter-spacing: 5px;">LEVEL_01</h2>
+        <p style="font-size: 0.8rem; color: #008800;">TEMUKAN PROTOKOL TERSEMBUNYI</p>
+
+        <div class="screen">
+            <div class="secret">
+                STATUS: ENCRYPTED<br>
+                CORE_VAL: 100293<br><br>
+                KUNCI_AKSES:<br>
+                <strong>MERDEKA_2026</strong>
+            </div>
         </div>
-    </div>
 
-    <div class="input-section">
-        <input type="text" id="flagInput" placeholder="ENTER ACCESS KEY..." autocomplete="off">
-        <button onclick="validate()">Authorize Access</button>
-        <div id="status"></div>
+        <input type="text" id="flag" placeholder="MASUKKAN KUNCI..." autocomplete="off">
+        <button onclick="cek()">OTORISASI</button>
     </div>
 
     <script>
-        function validate() {
-            const input = document.getElementById('flagInput').value;
-            const status = document.getElementById('status');
-            const target = "CYBER{N3XU5_CR4CK_2026}";
+        // Efek Matrix Rain
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const letters = "01010101ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
 
-            if (input === target) {
-                status.style.color = "cyan";
-                status.innerText = "> ACCESS GRANTED. DECRYPTING FILES...";
-                setTimeout(() => {
-                    alert("PROTOCOL UNLOCKED: Level 1 Clear.");
-                    // You can link to your Cloud website here!
-                }, 1000);
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#00ff41';
+            ctx.font = fontSize + 'px monospace';
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(draw, 33);
+
+        // Logika Cek Jawaban
+        function cek() {
+            const val = document.getElementById('flag').value;
+            if (val === "MERDEKA_2026") {
+                alert("AKSES DITERIMA! Sistem Terbuka.");
             } else {
-                status.style.color = "#ff4d4d";
-                status.innerText = "> ACCESS DENIED. INVALID CREDENTIALS.";
-                // Clear input
-                document.getElementById('flagInput').value = "";
+                alert("KUNCI SALAH!");
             }
         }
     </script>
 </body>
-  </html>
+</html>
