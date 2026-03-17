@@ -1,38 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CORE_SYSTEM_ACCESS</title>
-    <style>
-        body { background: #000; color: #0f0; font-family: 'Courier New', monospace; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; overflow: hidden; }
-        .terminal { border: 1px solid #0f0; padding: 40px; background: rgba(0,20,0,0.9); box-shadow: 0 0 30px #0f0; text-align: center; max-width: 400px; width: 90%; position: relative; z-index: 10; }
-        .glitch { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 5px; margin-bottom: 20px; animation: flicker 3s infinite; }
-        .input-area { margin-top: 30px; }
-        input { background: transparent; border: none; border-bottom: 2px solid #0f0; color: #0f0; padding: 10px; width: 100%; outline: none; text-align: center; font-family: inherit; font-size: 1.2rem; }
-        button { background: #0f0; color: #000; border: none; padding: 15px 30px; margin-top: 25px; cursor: pointer; font-weight: bold; width: 100%; letter-spacing: 2px; }
-        button:hover { background: #fff; box-shadow: 0 0 20px #fff; }
-        #log { font-size: 0.7rem; margin-top: 20px; color: #004400; }
-        @keyframes flicker { 0% {opacity:1} 50% {opacity:0.8} 100% {opacity:1} }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure Password Generator</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background: #fff;
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    width: 400px;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 25px;
+    color: #333;
+    font-weight: 600;
+}
+
+.password-container {
+    display: flex;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.password-container input {
+    flex: 1;
+    padding: 12px 15px;
+    border: none;
+    font-size: 16px;
+    outline: none;
+}
+
+.password-container button {
+    padding: 12px 20px;
+    border: none;
+    background: #FF6B6B;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.password-container button:hover {
+    background: #FF3B3B;
+}
+
+button#generateBtn {
+    padding: 14px 25px;
+    font-size: 16px;
+    background: #1DD1A1;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+button#generateBtn:hover {
+    background: #10A374;
+}
+
+::selection {
+    background: #1DD1A1;
+    color: #fff;
+}
+</style>
 </head>
 <body>
-
-    <div class="terminal">
-        <div class="glitch">ENCRYPTED_LEVEL_01</div>
-        <p style="font-size: 0.8rem;">RECOVER THE PROTOCOL KEY FROM SOURCE</p>
-        
-        <div class="input-area">
-            <input type="text" id="_0x4fe2" placeholder="ENTER ACCESS KEY..." autocomplete="off">
-            <button onclick="_0x2b31()">AUTHORIZE ACCESS</button>
-        </div>
-        
-        <div id="log">> SYSTEM_IDLE...</div>
+<div class="container">
+    <h1>Secure Password Generator</h1>
+    <div class="password-container">
+        <input type="text" id="password" readonly placeholder="Your password will appear here">
+        <button id="copyBtn">Copy</button>
     </div>
+    <button id="generateBtn">Generate Password</button>
+</div>
 
-    <script>
-        const _0x1a2b=["\x52\x45\x44\x45\x45\x4D\x5F\x43\x4F\x44\x45\x5F\x32\x30\x32\x36","\x6C\x6F\x67","\x76\x61\x6C\x75\x65","\x5F\x30\x78\x34\x66\x65\x32","\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64","\x41\x43\x43\x45\x53\x53\x5F\x47\x52\x41\x4E\x54\x45\x44","\x41\x43\x43\x45\x53\x53\x5F\x44\x45\x4E\x49\x45\x44\x5F\x49\x4E\x56\x41\x4C\x49\x44\x5F\x4B\x45\x59","\x69\x6E\x6E\x65\x72\x54\x65\x78\x74","\x73\x74\x79\x6C\x65","\x63\x6F\x6C\x6F\x72"];function _0x2b31(){var _0x5c3x=document[_0x1a2b[4]](_0x1a2b[3])[_0x1a2b[2]];var _0x12d3=document[_0x1a2b[4]](_0x1a2b[1]);if(_0x5c3x===_0x1a2b[0]){alert(_0x1a2b[5]);_0x12d3[_0x1a2b[7]]=_0x1a2b[5];_0x12d3[_0x1a2b[8]][_0x1a2b[9]]=_0x1a2b[0]}else{alert(_0x1a2b[6]);_0x12d3[_0x1a2b[7]]=_0x1a2b[6];_0x12d3[_0x1a2b[8]][_0x1a2b[9]]="\x72\x65\x64"}}
-        /* Hint for you: The hidden key is REDEEM_CODE_2026 */
-    </script>
+<script>
+const passwordEl = document.getElementById("password");
+const generateBtn = document.getElementById("generateBtn");
+const copyBtn = document.getElementById("copyBtn");
+
+const randomFunc = {
+    lower: () => String.fromCharCode(Math.floor(Math.random() * 26) + 97),
+    upper: () => String.fromCharCode(Math.floor(Math.random() * 26) + 65),
+    number: () => String.fromCharCode(Math.floor(Math.random() * 10) + 48),
+    symbol: () => "!@#$%^&*(){}[]=<>/,.|~?".charAt(Math.floor(Math.random() * 20))
+};
+
+function generatePassword(length = 15) {
+    if(length < 15) length = 15;
+
+    let password = "";
+
+    // Ensure at least one of each type
+    password += randomFunc.lower();
+    password += randomFunc.upper();
+    password += randomFunc.number();
+    password += randomFunc.symbol();
+
+    const types = ["lower","upper","number","symbol"];
+    while(password.length < length) {
+        const type = types[Math.floor(Math.random() * types.length)];
+        password += randomFunc[type]();
+    }
+
+    password = password.split('').sort(() => Math.random() - 0.5).join('');
+
+    return password;
+}
+
+generateBtn.addEventListener("click", () => {
+    passwordEl.value = generatePassword(15);
+});
+
+copyBtn.addEventListener("click", () => {
+    if(!passwordEl.value) return;
+    passwordEl.select();
+    document.execCommand("copy");
+    alert("Password copied to clipboard!");
+});
+</script>
 </body>
 </html>
